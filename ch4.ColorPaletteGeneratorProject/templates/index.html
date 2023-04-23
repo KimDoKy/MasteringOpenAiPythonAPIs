@@ -13,5 +13,31 @@
 	</head>
 	<body>
 		<h1>Hello</h1>
+
+		<form id="form">
+			<input type="text" name="query">
+			<button>Submit</button>
+		</form>
+
+		<script>
+			const form = document.querySelector("#form");
+			form.addEventListener("submit", function(e) {
+				e.preventDefault();
+				const query = form.elements.query.value;
+				fetch("/palette", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+					body: new URLSearchParams({
+						query: query
+					})
+				})
+				.then((response) => response.json())
+				.then(data => {
+					console.log(data)
+				})
+			})
+		</script>
 	</body>
 </html>
