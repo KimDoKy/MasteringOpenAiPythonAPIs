@@ -8,7 +8,9 @@ config = dotenv_values("../../../.env")
 openai.api_key = config["openai"]
 
 app = Flask(__name__,
-    template_folder="templates"
+    template_folder="templates",
+    static_url_path="",
+    static_folder="static"
 )
 
 def get_colors(msg):
