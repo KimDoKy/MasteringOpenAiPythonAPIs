@@ -32,42 +32,20 @@ def get_colors(msg):
     res = openai.Completion.create(
         prompt=prompt,
         model="text-davinci-003",
-        max_tokens=100
+        max_tokens=100,
     )
-    colors = json.loads(res["choices"][0]["text"])
+    colors = json.loads(res["choices"][0]["text"].strip())
     return colors
 
 @app.route("/palette", methods=["POST"])
 def prompt_to_palette():
-    """
-    $ curl http://localhost:5000/palette -X POST -d "query=midnight on the highway colors"
-    {
-      "colors": [
-          "#181a23",
-          "#303d4b",
-          "#646d80",
-          "#91a9b9",
-          "#bbd4e4",
-          "#e3edf4",
-          "#af7d81",
-          "#6c4547"
-        ]
-    }
-    """
     query = request.form.get("query")
     colors = get_colors(query)
     app.logger.info(colors)
     return {"colors": colors}
-    # OpneAi Completion Call
-
-    # Return List of Color
 
 @app.route("/")
 def index():
-#     res = openai.Completion.create(
-#         model="text-davinci-003",
-#         prompt="Give me a funny word: "
-#     )
     return render_template("index.html")
 
 if __name__ == "__main__":
